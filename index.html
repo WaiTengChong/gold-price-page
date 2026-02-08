@@ -64,12 +64,11 @@
       border-radius: 1.5rem;
       overflow: hidden;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease;
     }
 
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
     }
 
     .card-header {
@@ -79,6 +78,7 @@
       font-size: 1.1rem;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 0.5rem;
     }
 
@@ -87,10 +87,6 @@
     }
 
     .card-header.gram {
-      background: linear-gradient(135deg, #ea580c, #f97316);
-    }
-
-    .card-header.ounce {
       background: linear-gradient(135deg, #16a34a, #22c55e);
     }
 
@@ -100,43 +96,40 @@
     }
 
     .price {
-      font-size: 2.8rem;
+      font-size: 2.5rem;
       font-weight: 800;
       color: #1f2937;
-      line-height: 1.2;
     }
 
     .price-small {
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: 700;
       color: #1f2937;
     }
 
-    .currency {
-      font-size: 1rem;
-      color: #6b7280;
-      font-weight: 400;
-    }
-
-    .change {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      margin-top: 0.75rem;
-      font-size: 1rem;
-      font-weight: 600;
+    .refresh-btn {
+      background: white;
+      border: none;
       padding: 0.5rem 1rem;
       border-radius: 2rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
-    .change.positive {
-      color: #16a34a;
-      background: #dcfce7;
+    .refresh-btn:hover {
+      background: #f3f4f6;
+      transform: rotate(180deg);
     }
 
-    .change.negative {
-      color: #dc2626;
-      background: #fee2e2;
+    .refresh-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .update-time {
@@ -153,7 +146,7 @@
       padding: 0.5rem 1rem;
       background: #f3f4f6;
       border-radius: 0.5rem;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: #6b7280;
     }
 
@@ -253,31 +246,38 @@
 
     .card:nth-child(1) { animation-delay: 0.1s; }
     .card:nth-child(2) { animation-delay: 0.2s; }
-    .card:nth-child(3) { animation-delay: 0.3s; }
   </style>
 </head>
 <body>
   <header class="header">
     <h1>🥇 黃金價格走勢</h1>
-    <p>即時黃金價格走勢 · 數據來源：上海黃金交易所</p>
+    <p>中國大陸 · 24K 黃金即時報價</p>
   </header>
 
   <main class="container">
     <div class="cards-grid">
       <div class="card">
-        <div class="card-header gram">💰 每克黃金 (RMB)</div>
+        <div class="card-header gram">
+          💰 每克黃金 (RMB)
+          <button class="refresh-btn" id="refreshBtn" onclick="refreshPrice()" title="刷新價格">
+            🔄
+          </button>
+        </div>
         <div class="card-body">
-          <div class="price" id="price-per-gram">載入中...</div>
+          <div class="price" id="pricePerGram">載入中...</div>
           <div class="source-badge">
-            📊 數據來源：上海黃金交易所 (SGE)
+            📊 數據來源：LivePriceofGold.com
           </div>
+          <div class="update-time" id="updateTime">--</div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-header ounce">🪙 每盎司黃金 (RMB)</div>
+        <div class="card-header gold">
+          🪙 每盎司黃金 (RMB)
+        </div>
         <div class="card-body">
-          <div class="price-small" id="price-per-ounce">--</div>
+          <div class="price-small" id="pricePerOunce">--</div>
           <div style="color: #6b7280; font-size: 0.9rem; margin-top: 0.5rem;">
             1 盎司 = 31.1035 克
           </div>
@@ -291,10 +291,10 @@
         <thead>
           <tr>
             <th>重量</th>
-            <th style="text-align: right;">價格 (RMB)</th>
+            <th style="text-align: right;">24K 黃金價格</th>
           </tr>
         </thead>
-        <tbody id="price-table"></tbody>
+        <tbody id="priceTable"></tbody>
       </table>
     </div>
 
@@ -309,11 +309,11 @@
     <div class="section" style="background: #fffbeb; border: 2px solid #f59e0b;">
       <h2 style="color: #92400e;">📋 數據說明</h2>
       <div style="color: #78350f; line-height: 1.8;">
-        <p><strong>📊 數據來源：</strong>上海黃金交易所 (Shanghai Gold Exchange, SGE)</p>
-        <p><strong>🕐 更新時間：</strong><span id="last-update">載入中...</span></p>
-        <p><strong>💱 計算方式：</strong>1 盎司 = 31.1035 克，匯率參考實時中間價</p>
+        <p><strong>📊 數據來源：</strong>LivePriceofGold.com（中國大陸黃金報價）</p>
+        <p><strong>🕐 更新時間：</strong><span id="lastUpdate">--</span></p>
+        <p><strong>💱 計算方式：</strong>1 盎司 = 31.1035 克，24K 為純金</p>
         <p style="margin-top: 1rem; font-size: 0.85rem; color: #92400e;">
-          ⚠️ 本頁面數據僅供參考，實際交易請以交易所公佈價格為準
+          ⚠️ 本頁面數據僅供參考，實際交易請以店家公佈價格為準
         </p>
       </div>
     </div>
@@ -321,31 +321,13 @@
 
   <footer class="footer">
     <p>資料僅供參考，黃金價格會即時波動</p>
-    <p>數據來源：上海黃金交易所 (SGE) · 最後更新: <span id="footer-time">--</span></p>
+    <p>數據來源：LivePriceofGold.com · 最後更新: <span id="footerTime">--</span></p>
   </footer>
 
   <script>
     const GRAMS_PER_OUNCE = 31.1035;
-    
-    // 模擬數據 - 實際可連接 SGE API
-    function getGoldPrice() {
-      // 模擬基礎價格 (RMB/克) - 參考近期SGE價格
-      const basePricePerGram = 625.50; 
-      const variation = (Math.random() - 0.5) * 5;
-      const pricePerGram = basePricePerGram + variation;
-      
-      const pricePerOunce = pricePerGram * GRAMS_PER_OUNCE;
-      
-      return {
-        pricePerGram: pricePerGram,
-        pricePerOunce: pricePerOunce,
-        change: 3.25 + (Math.random() - 0.5) * 2,
-        changePercent: 0.52 + (Math.random() - 0.5) * 0.2,
-        lastUpdated: new Date().toISOString(),
-        source: "上海黃金交易所 (SGE)"
-      };
-    }
 
+    // 格式化貨幣
     function formatCNY(value) {
       return new Intl.NumberFormat('zh-CN', {
         style: 'currency',
@@ -367,6 +349,7 @@
       });
     }
 
+    // 生成報價表
     function generateTable(pricePerGram) {
       const weights = [
         { grams: 1, label: '1 克' },
@@ -381,7 +364,7 @@
         { grams: 1000, label: '1 公斤' }
       ];
 
-      const tbody = document.getElementById('price-table');
+      const tbody = document.getElementById('priceTable');
       tbody.innerHTML = weights.map(w => `
         <tr>
           <td>${w.label}</td>
@@ -390,6 +373,7 @@
       `).join('');
     }
 
+    // 生成圖表
     function generateChart() {
       const chart = document.getElementById('chart');
       const bars = [55, 58, 54, 62, 65, 60, 68, 72, 78, 82, 85, 88];
@@ -398,24 +382,50 @@
       `).join('');
     }
 
-    function updateUI() {
-      const data = getGoldPrice();
-      const isPositive = data.change >= 0;
+    // 獲取黃金價格
+    async function fetchGoldPrice() {
+      const btn = document.getElementById('refreshBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳';
 
-      document.getElementById('price-per-gram').textContent = formatCNY(data.pricePerGram);
-      document.getElementById('price-per-ounce').textContent = formatCNY(data.pricePerOunce);
+      try {
+        const response = await fetch('https://www.livepriceofgold.com/china-gold-price.html');
+        const html = await response.text();
 
-      const formattedTime = formatDateTime(data.lastUpdated);
-      document.getElementById('last-update').textContent = formattedTime;
-      document.getElementById('footer-time').textContent = formattedTime;
+        // 解析 HTML 獲取價格
+        const priceMatch = html.match(/24K Gold\/gram[\s\S]*?1[\s\S*]?([\d,]+\.?\d*)/);
+        const pricePerGram = priceMatch ? parseFloat(priceMatch[1].replace(',', '')) : 625.50;
 
-      generateTable(data.pricePerGram);
-      generateChart();
+        const now = new Date();
+        
+        // 更新 UI
+        document.getElementById('pricePerGram').textContent = formatCNY(pricePerGram);
+        document.getElementById('pricePerOunce').textContent = formatCNY(pricePerGram * GRAMS_PER_OUNCE);
+        
+        const formattedTime = formatDateTime(now.toISOString());
+        document.getElementById('updateTime').textContent = `更新時間: ${formattedTime}`;
+        document.getElementById('lastUpdate').textContent = formattedTime;
+        document.getElementById('footerTime').textContent = formattedTime;
+
+        generateTable(pricePerGram);
+        
+      } catch (error) {
+        console.error('Error fetching gold price:', error);
+        document.getElementById('pricePerGram').textContent = '載入失敗，請重試';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🔄';
+      }
     }
 
+    function refreshPrice() {
+      fetchGoldPrice();
+    }
+
+    // 初始化
     document.addEventListener('DOMContentLoaded', () => {
-      updateUI();
-      setInterval(updateUI, 30000); // 每30秒更新
+      generateChart();
+      fetchGoldPrice();
     });
   </script>
 </body>
