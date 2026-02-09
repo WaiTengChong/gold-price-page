@@ -1,46 +1,60 @@
-# Gold Price Page
+# 🧰 OpenClaw Toolbox
 
-A beautiful, responsive gold price display page built with vanilla HTML, CSS, and JavaScript.
+A multi-function toolbox built with vanilla HTML, CSS, and JavaScript.
 
-## Features
+## ✨ Features
 
-- 🥇 Live gold price per ounce (XAU/USD)
-- 💰 Per gram price calculation
-- 📊 Quick reference table (1g - 1kg)
-- 📈 Price trend chart
-- 🎨 Beautiful gradient UI design
-- 📱 Fully responsive (mobile & desktop)
-- 🔄 Auto-refresh every 60 seconds
+### 🥇 Gold Price
+- Real-time gold price (CNY per gram)
+- 24K gold price tracking
+- Auto-refresh support
 
-## Deployment to GitHub Pages
+### 📰 Tech News
+- Latest technology news aggregation
+- Clean, readable format
+- Source attribution
 
-1. Create a new repository on GitHub (e.g., `yourusername/gold-price-page`)
+## 🚀 Quick Start
 
-2. Push this code to GitHub:
+Simply open `index.html` in any web browser. No build process required!
+
+## 📱 Usage
+
+1. **Gold Price** - View current gold prices in China
+2. **Tech News** - Browse latest tech news (click to read more)
+
+## 🔧 Technologies
+
+- HTML5
+- CSS3 (Grid, Flexbox, Animations)
+- Vanilla JavaScript
+- No external dependencies
+
+## 📦 Deployment to GitHub Pages
+
+1. Create a new repository on GitHub (e.g., `yourusername/toolbox`)
+
+2. Push this code:
 ```bash
-cd /root/.openclaw/workspace/gold-page
 git init
 git add .
-git commit -m "Initial commit: Gold price page"
-git remote add origin https://github.com/YOURUSERNAME/gold-price-page.git
+git commit -m "Initial commit"
+git remote add origin https://github.com/YOURUSERNAME/toolbox.git
 git push -u origin main
 ```
 
-3. Go to your repository on GitHub:
+3. Enable GitHub Pages:
    - Settings → Pages
    - Source: Select "main" branch
-   - Click Save
+   - Save
 
-4. Your site will be live at:
-   `https://YOURUSERNAME.github.io/gold-price-page/`
+4. Your site: `https://YOURUSERNAME.github.io/toolbox/`
 
-## Local Development
+## 🔗 APIs
 
-Simply open `index.html` in any web browser.
+- Gold Price: GoldAPI.io
+- Tech News: Brave Search API (config required)
 
-## Tech Stack
+## 📄 License
 
-- HTML5
-- CSS3 (Flexbox, Grid, Animations)
-- Vanilla JavaScript
-- No external dependencies
+MIT
